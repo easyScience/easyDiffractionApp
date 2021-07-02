@@ -14,8 +14,8 @@ Item {
 
         EaElements.TextArea {
             ///text: EaLogic.Utils.prettyXml(ExGlobals.Constants.proxy.fitablesListAsXml)
-            //text: prettyJson(ExGlobals.Constants.proxy.fitablesDict)
-            //text: prettyJson(ExGlobals.Constants.proxy.fitablesList)
+            //text: prettyJson(ExGlobals.Constants.proxy.fitting.fitablesDict)
+            //text: prettyJson(ExGlobals.Constants.proxy.fitting.fitablesList)
         }
     }
 

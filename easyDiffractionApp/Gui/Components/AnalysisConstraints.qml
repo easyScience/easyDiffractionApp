@@ -12,7 +12,7 @@ import Gui.Globals 1.0 as ExGlobals
 EaComponents.TableView  {
     id: table
 
-    enabled: ExGlobals.Constants.proxy.experimentLoaded
+    enabled: ExGlobals.Constants.proxy.experiment.experimentLoaded
 
     maxRowCountShow: 8
     defaultInfoText: qsTr("No Constraints Added")
@@ -23,7 +23,7 @@ EaComponents.TableView  {
         id: constraintsModel
 
         //xml: ExGlobals.Constants.proxy.constraintsListAsXml
-        xml: ExGlobals.Constants.proxy.fitLogic.constraintsAsXml
+        xml: ExGlobals.Constants.proxy.fitting.constraintsAsXml
 
         query: "/root/item"
 
@@ -104,7 +104,7 @@ EaComponents.TableView  {
             width: EaStyle.Sizes.fontPixelSize * 3
             headerText: "Use"
             checked: model.enabled
-            onToggled: ExGlobals.Constants.proxy.fitLogic.toggleConstraintByIndex(model.index, checked)
+            onToggled: ExGlobals.Constants.proxy.fitting.toggleConstraintByIndex(model.index, checked)
         }
 
         EaComponents.TableViewButton {
@@ -112,7 +112,7 @@ EaComponents.TableView  {
             headerText: "Del." //"\uf2ed"
             fontIcon: "minus-circle"
             ToolTip.text: qsTr("Remove this constraint")
-            onClicked: ExGlobals.Constants.proxy.fitLogic.removeConstraintByIndex(model.index)
+            onClicked: ExGlobals.Constants.proxy.fitting.removeConstraintByIndex(model.index)
         }
     }
 

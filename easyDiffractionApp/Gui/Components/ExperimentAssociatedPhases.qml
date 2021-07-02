@@ -18,7 +18,7 @@ EaComponents.TableView {
     // Table model
 
     model: XmlListModel {
-        xml: ExGlobals.Constants.proxy.phasesAsXml
+        xml: ExGlobals.Constants.proxy.phase.phasesAsXml
         query: "/root/item"
 
         XmlRole { name: "label"; query: "name/string()" }
@@ -52,8 +52,8 @@ EaComponents.TableView {
         EaComponents.TableViewTextInput {
             id: scaleColumn
             headerText: "Scale"
-            text: EaLogic.Utils.toFixed(ExGlobals.Constants.proxy.patternParametersAsObj.scale.value)
-            onEditingFinished: editParameterValue(ExGlobals.Constants.proxy.patternParametersAsObj.scale["@id"], text)
+            text: EaLogic.Utils.toFixed(ExGlobals.Constants.proxy.parameters.patternParametersAsObj.scale.value)
+            onEditingFinished: editParameterValue(ExGlobals.Constants.proxy.parameters.patternParametersAsObj.scale["@id"], text)
         }
 
         EaComponents.TableViewCheckBox {
@@ -77,6 +77,6 @@ EaComponents.TableView {
     // Logic
 
     function editParameterValue(id, value) {
-        ExGlobals.Constants.proxy.editParameter(id, parseFloat(value))
+        ExGlobals.Constants.proxy.parameters.editParameter(id, parseFloat(value))
     }
 }

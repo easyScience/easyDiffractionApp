@@ -24,8 +24,8 @@ Rectangle {
             font.family: EaStyle.Fonts.secondFontFamily
             font.pixelSize: EaStyle.Sizes.fontPixelSize * 3
             font.weight: Font.ExtraLight
-            text: ExGlobals.Constants.proxy.projectInfoAsJson.name
-            onEditingFinished: ExGlobals.Constants.proxy.editProjectInfo("name", text)
+            text: ExGlobals.Constants.proxy.project.projectInfoAsJson.name
+            onEditingFinished: ExGlobals.Constants.proxy.project.editProjectInfo("name", text)
         }
 
         Grid {
@@ -38,18 +38,18 @@ Rectangle {
                 text: qsTr("Short description:")
             }
             EaElements.TextInput {
-                text: ExGlobals.Constants.proxy.projectInfoAsJson.short_description
-                onEditingFinished: ExGlobals.Constants.proxy.editProjectInfo("short_description", text)
+                text: ExGlobals.Constants.proxy.project.projectInfoAsJson.short_description
+                onEditingFinished: ExGlobals.Constants.proxy.project.editProjectInfo("short_description", text)
             }
 
             EaElements.Label {
-                visible: ExGlobals.Constants.proxy.currentProjectPath !== '--- EXAMPLE ---'
+                visible: ExGlobals.Constants.proxy.project.currentProjectPath !== '--- EXAMPLE ---'
                 font.bold: true
                 text: qsTr("Location:")
             }
             EaElements.Label {
-                visible: ExGlobals.Constants.proxy.currentProjectPath !== '--- EXAMPLE ---'
-                text: ExGlobals.Constants.proxy.currentProjectPath
+                visible: ExGlobals.Constants.proxy.project.currentProjectPath !== '--- EXAMPLE ---'
+                text: ExGlobals.Constants.proxy.project.currentProjectPath
             }
 
             EaElements.Label {
@@ -57,8 +57,8 @@ Rectangle {
                 text: qsTr("Phases:")
             }
             EaElements.Label {
-                text: ExGlobals.Constants.proxy.projectInfoAsJson.samples
-                //onEditingFinished: ExGlobals.Constants.proxy.editProjectInfo("samples", text)
+                text: ExGlobals.Constants.proxy.project.projectInfoAsJson.samples
+                //onEditingFinished: ExGlobals.Constants.proxy.project.editProjectInfo("samples", text)
             }
 
             EaElements.Label {
@@ -66,8 +66,8 @@ Rectangle {
                 text: qsTr("Experiments:")
             }
             EaElements.Label {
-                text: ExGlobals.Constants.proxy.projectInfoAsJson.experiments
-                //onEditingFinished: ExGlobals.Constants.proxy.editProjectInfo("experiments", text)
+                text: ExGlobals.Constants.proxy.project.projectInfoAsJson.experiments
+                //onEditingFinished: ExGlobals.Constants.proxy.project.editProjectInfo("experiments", text)
             }
 
             /*
@@ -76,8 +76,8 @@ Rectangle {
                 text: qsTr("Calculations:")
             }
             EaElements.TextInput {
-                text: ExGlobals.Constants.proxy.projectInfoAsJson.calculations
-                onEditingFinished: ExGlobals.Constants.proxy.editProjectInfo("calculations", text)
+                text: ExGlobals.Constants.proxy.project.projectInfoAsJson.calculations
+                onEditingFinished: ExGlobals.Constants.proxy.project.editProjectInfo("calculations", text)
             }
             */
 
@@ -86,7 +86,7 @@ Rectangle {
                 text: qsTr("Modified:")
             }
             EaElements.Label {
-                text: ExGlobals.Constants.proxy.projectInfoAsJson.modified
+                text: ExGlobals.Constants.proxy.project.projectInfoAsJson.modified
             }
         }
 

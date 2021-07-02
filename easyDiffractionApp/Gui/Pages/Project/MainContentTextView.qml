@@ -18,8 +18,8 @@ Item {
             readOnly: true
             font.family: EaStyle.Fonts.monoFontFamily
             textFormat: TextEdit.RichText
-            text: ExLogic.Helpers.highlightCifSyntax(ExGlobals.Constants.proxy.projectInfoAsCif)
-            //onEditingFinished: ExGlobals.Constants.proxy.projectInfoAsCif = ExLogic.Helpers.removeCifSyntaxHighlighting(text)
+            text: ExLogic.Helpers.highlightCifSyntax(ExGlobals.Constants.proxy.project.projectInfoAsCif)
+            //onEditingFinished: ExGlobals.Constants.proxy.project.projectInfoAsCif = ExLogic.Helpers.removeCifSyntaxHighlighting(text)
         }
     }
 

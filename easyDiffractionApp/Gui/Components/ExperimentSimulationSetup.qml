@@ -19,10 +19,10 @@ Row {
     }
     EaElements.Parameter {
         id: xMin
-        enabled: !ExGlobals.Constants.proxy.experimentLoaded
+        enabled: !ExGlobals.Constants.proxy.experiment.experimentLoaded
         width: textFieldWidth()
         units: "deg"
-        text: EaLogic.Utils.toFixed(ExGlobals.Constants.proxy.simulationParametersAsObj.x_min, 3)
+        text: EaLogic.Utils.toFixed(ExGlobals.Constants.proxy.parameters.simulationParametersAsObj.x_min, 3)
         onEditingFinished: updateParameters()
     }
 
@@ -34,10 +34,10 @@ Row {
     }
     EaElements.Parameter {
         id: xMax
-        enabled: !ExGlobals.Constants.proxy.experimentLoaded
+        enabled: !ExGlobals.Constants.proxy.experiment.experimentLoaded
         width: textFieldWidth()
         units: "deg"
-        text: EaLogic.Utils.toFixed(ExGlobals.Constants.proxy.simulationParametersAsObj.x_max, 3)
+        text: EaLogic.Utils.toFixed(ExGlobals.Constants.proxy.parameters.simulationParametersAsObj.x_max, 3)
         onEditingFinished: updateParameters()
     }
 
@@ -49,10 +49,10 @@ Row {
     }
     EaElements.Parameter {
         id: xStep
-        enabled: !ExGlobals.Constants.proxy.experimentLoaded
+        enabled: !ExGlobals.Constants.proxy.experiment.experimentLoaded
         width: textFieldWidth()
         units: "deg"
-        text: EaLogic.Utils.toFixed(ExGlobals.Constants.proxy.simulationParametersAsObj.x_step, 3)
+        text: EaLogic.Utils.toFixed(ExGlobals.Constants.proxy.parameters.simulationParametersAsObj.x_step, 3)
         onEditingFinished: updateParameters()
     }
 
@@ -72,6 +72,6 @@ Row {
             "x_max": parseFloat(xMax.text),
             "x_step": parseFloat(xStep.text)
         }
-        ExGlobals.Constants.proxy.simulationParametersAsObj = JSON.stringify(json)
+        ExGlobals.Constants.proxy.parameters.simulationParametersAsObj = JSON.stringify(json)
     }
 }

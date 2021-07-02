@@ -15,9 +15,9 @@ EaComponents.TableView {
     // Table model
 
     model: XmlListModel {
-        property int phaseIndex: ExGlobals.Constants.proxy.currentPhaseIndex + 1
+        property int phaseIndex: ExGlobals.Constants.proxy.phase.currentPhaseIndex + 1
 
-        xml: ExGlobals.Constants.proxy.phasesAsXml
+        xml: ExGlobals.Constants.proxy.phase.phasesAsXml
         query: `/root/item[${phaseIndex}]/atoms/data/item`
 
         XmlRole { name: "label"; query: "label/value/string()" }
@@ -121,7 +121,7 @@ EaComponents.TableView {
     // Logic
 
     function editParameterValue(id, value) {
-        ExGlobals.Constants.proxy.editParameter(id, parseFloat(value))
+        ExGlobals.Constants.proxy.parameters.editParameter(id, parseFloat(value))
     }
 
 }

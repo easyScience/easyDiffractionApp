@@ -21,9 +21,9 @@ Row {
         EaElements.ComboBox {
             id: crystalSystemSelector
             width: EaStyle.Sizes.sideBarContentWidth / 3 - EaStyle.Sizes.fontPixelSize * 2
-            model: ExGlobals.Constants.proxy.crystalSystemList
-            currentIndex: indexOfValue(ExGlobals.Constants.proxy.currentCrystalSystem)
-            onActivated: ExGlobals.Constants.proxy.currentCrystalSystem = currentText
+            model: ExGlobals.Constants.proxy.phase.crystalSystemList
+            currentIndex: indexOfValue(ExGlobals.Constants.proxy.phase.currentCrystalSystem)
+            onActivated: ExGlobals.Constants.proxy.phase.currentCrystalSystem = currentText
         }
     }
 
@@ -37,9 +37,9 @@ Row {
 
         EaElements.ComboBox {
             width: crystalSystemSelector.width
-            model: ExGlobals.Constants.proxy.formattedSpaceGroupList
-            currentIndex: ExGlobals.Constants.proxy.currentSpaceGroup
-            onActivated: ExGlobals.Constants.proxy.currentSpaceGroup = currentIndex
+            model: ExGlobals.Constants.proxy.phase.formattedSpaceGroupList
+            currentIndex: ExGlobals.Constants.proxy.phase.currentSpaceGroup
+            onActivated: ExGlobals.Constants.proxy.phase.currentSpaceGroup = currentIndex
         }
     }
 
@@ -53,9 +53,9 @@ Row {
 
         EaElements.ComboBox {
             width: crystalSystemSelector.width + EaStyle.Sizes.fontPixelSize * 4.0
-            model: ExGlobals.Constants.proxy.formattedSpaceGroupSettingList
-            currentIndex: ExGlobals.Constants.proxy.currentSpaceGroupSetting
-            onActivated: ExGlobals.Constants.proxy.currentSpaceGroupSetting = currentIndex
+            model: ExGlobals.Constants.proxy.phase.formattedSpaceGroupSettingList
+            currentIndex: ExGlobals.Constants.proxy.phase.currentSpaceGroupSetting
+            onActivated: ExGlobals.Constants.proxy.phase.currentSpaceGroupSetting = currentIndex
         }
     }
 }

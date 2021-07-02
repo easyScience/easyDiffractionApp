@@ -18,7 +18,7 @@ EaComponents.TableView {
     // Table model
 
     model: XmlListModel {
-        xml: ExGlobals.Constants.proxy.instrumentParametersAsXml
+        xml: ExGlobals.Constants.proxy.parameters.instrumentParametersAsXml
         query: `/root/item`
 
         XmlRole { name: "u"; query: "resolution_u/value/number()" }
@@ -59,7 +59,7 @@ EaComponents.TableView {
     // Logic
 
     function editParameterValue(id, value) {
-        ExGlobals.Constants.proxy.editParameter(id, parseFloat(value))
+        ExGlobals.Constants.proxy.parameters.editParameter(id, parseFloat(value))
     }
 
 }

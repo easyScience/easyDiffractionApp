@@ -17,8 +17,8 @@ Item {
         EaElements.TextArea {
             font.family: EaStyle.Fonts.monoFontFamily
             textFormat: TextEdit.RichText
-            text: ExLogic.Helpers.highlightCifSyntax(ExGlobals.Constants.proxy.phasesAsCif)
-            onEditingFinished: ExGlobals.Constants.proxy.phasesAsCif = ExLogic.Helpers.removeCifSyntaxHighlighting(text)
+            text: ExLogic.Helpers.highlightCifSyntax(ExGlobals.Constants.proxy.phase.phasesAsCif)
+            onEditingFinished: ExGlobals.Constants.proxy.phase.phasesAsCif = ExLogic.Helpers.removeCifSyntaxHighlighting(text)
         }
     }
 

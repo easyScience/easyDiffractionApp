@@ -95,7 +95,7 @@ Item {
             onClicked: {
                 ExGlobals.Variables.projectPageEnabled = true
                 ExGlobals.Variables.projectTabButton.toggle()
-                ExGlobals.Constants.proxy.resetUndoRedoStack()
+                ExGlobals.Constants.proxy.stack.resetUndoRedoStack()
             }
             Component.onCompleted: ExGlobals.Variables.startButton = this
         }

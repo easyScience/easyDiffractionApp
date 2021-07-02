@@ -18,7 +18,7 @@ EaComponents.TableView {
     // Table model
 
     model: XmlListModel {
-        xml: ExGlobals.Constants.proxy.projectExamplesAsXml
+        xml: ExGlobals.Constants.proxy.project.projectExamplesAsXml
         query: "/root/item"
 
         XmlRole { name: "name"; query: "name/string()" }
@@ -72,7 +72,7 @@ EaComponents.TableView {
 
             onClicked: {
                 const fileUrl = Qt.resolvedUrl(model.path)
-                ExGlobals.Constants.proxy.loadExampleProject(fileUrl)
+                ExGlobals.Constants.proxy.project.loadExampleProject(fileUrl)
 
                 ExGlobals.Variables.samplePageEnabled = true
                 ExGlobals.Variables.experimentPageEnabled = true

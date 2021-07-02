@@ -13,8 +13,8 @@ EaElements.RemoteController {
     id: rc
 
     property bool isPreparationToFitDone: false
-    property bool isFitSuccessfullyDone: typeof ExGlobals.Constants.proxy.fitResults.success !== 'undefined' &&
-                                         ExGlobals.Constants.proxy.isFitFinished
+    property bool isFitSuccessfullyDone: typeof ExGlobals.Constants.proxy.fitting.fitResults.success !== 'undefined' &&
+                                         ExGlobals.Constants.proxy.fitting.isFitFinished
 
     visible: false
     audioDir: Qt.resolvedUrl("../../Resources/Audio")

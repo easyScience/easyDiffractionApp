@@ -41,7 +41,7 @@ EaComponents.SideBarColumn {
                     onTextChanged: {
                         exampleFilterCriteria.currentIndex = exampleFilterCriteria.indexOfValue(text)
                         namesFilterCriteria.currentIndex = namesFilterCriteria.indexOfValue(text)
-                        ExGlobals.Constants.proxy.setParametersFilterCriteria(text)
+                        ExGlobals.Constants.proxy.parameters.setParametersFilterCriteria(text)
                     }
                 }
             }
@@ -105,18 +105,18 @@ EaComponents.SideBarColumn {
                     displayText: currentIndex === -1 ? qsTr("Filter by name") : currentText
 
                     model: {
-                        if (typeof ExGlobals.Constants.proxy.phasesAsObj === 'undefined' || typeof ExGlobals.Constants.proxy.phasesAsObj[0] === 'undefined' ) {
+                        if (typeof ExGlobals.Constants.proxy.phase.phasesAsObj === 'undefined' || typeof ExGlobals.Constants.proxy.phase.phasesAsObj[0] === 'undefined' ) {
                             return []
                         }
-                        const phaseName = ExGlobals.Constants.proxy.phasesAsObj[0].name
-                        const datasetName = ExGlobals.Constants.proxy.experimentDataAsObj[0].name
+                        const phaseName = ExGlobals.Constants.proxy.phase.phasesAsObj[0].name
+                        const datasetName = ExGlobals.Constants.proxy.experiment.experimentDataAsObj[0].name
                         let m = [
                                 { value: "", text: qsTr("All names") },
                                 { value: `.${phaseName}.`, text: formatFilterText("gem", "", phaseName) },
                                 { value: `.${datasetName}.`, text: formatFilterText("microscope", "", datasetName) },
                                 ]
-                        for (let i in ExGlobals.Constants.proxy.phasesAsObj[0].atoms.data) {
-                            const atomLabel = ExGlobals.Constants.proxy.phasesAsObj[0].atoms.data[i].label.value
+                        for (let i in ExGlobals.Constants.proxy.phase.phasesAsObj[0].atoms.data) {
+                            const atomLabel = ExGlobals.Constants.proxy.phase.phasesAsObj[0].atoms.data[i].label.value
                             m.push({ value: `.${atomLabel}.`, text: formatFilterText("gem", "atom", atomLabel) })
                         }
                         return m
@@ -184,11 +184,12 @@ EaComponents.SideBarColumn {
             wide: true
             // temporarily disabled
             // enabled: ExGlobals.Constants.proxy.experimentLoaded
-            enabled: ExGlobals.Constants.proxy.experimentLoaded && ExGlobals.Constants.proxy.isFitFinished
-            fontIcon: ExGlobals.Constants.proxy.isFitFinished ? "play-circle" : "stop-circle"
+            enabled: ExGlobals.Constants.proxy.experiment.experimentLoaded && ExGlobals.Constants.proxy.fitting.isFitFinished
+            fontIcon: ExGlobals.Constants.proxy.fitting.isFitFinished ? "play-circle" : "pause-circle"
             // temporarily modified
-            text: ExGlobals.Constants.proxy.isFitFinished ? qsTr("Start fitting") : qsTr("Stop fitting")
-            onClicked: ExGlobals.Constants.proxy.fit()
+            // text: ExGlobals.Constants.proxy.fitting.isFitFinished ? qsTr("Start fitting") : qsTr("Stop fitting")
+            text: ExGlobals.Constants.proxy.fitting.isFitFinished ? qsTr("Start fitting") : qsTr("Fitting in progress")
+            onClicked: ExGlobals.Constants.proxy.fitting.fit()
             Component.onCompleted: ExGlobals.Variables.startFittingButton = this
         }
 
@@ -197,8 +198,8 @@ EaComponents.SideBarColumn {
 
     // Init results dialog
     ExComponents.ResultsDialog {
-        visible: typeof ExGlobals.Constants.proxy.fitResults.success !== 'undefined' &&
-                 ExGlobals.Constants.proxy.isFitFinished
+        visible: typeof ExGlobals.Constants.proxy.fitting.fitResults.success !== 'undefined' &&
+                 ExGlobals.Constants.proxy.fitting.isFitFinished
     }
 
     // Logic
@@ -222,7 +223,7 @@ EaComponents.SideBarColumn {
     }
 
     function editParameterValue(id, value) {
-        ExGlobals.Constants.proxy.editParameter(id, parseFloat(value))
+        ExGlobals.Constants.proxy.parameters.editParameter(id, parseFloat(value))
     }
 
 }

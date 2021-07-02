@@ -19,9 +19,9 @@ Row {
     }
     EaElements.Parameter {
         width: textFieldWidth()
-        units: "deg" //ExGlobals.Constants.proxy.patternParametersAsObj.zero_shift.units
-        text: EaLogic.Utils.toFixed(ExGlobals.Constants.proxy.patternParametersAsObj.zero_shift.value)
-        onEditingFinished: editParameterValue(ExGlobals.Constants.proxy.patternParametersAsObj.zero_shift["@id"], text)
+        units: "deg" //ExGlobals.Constants.proxy.parameters.patternParametersAsObj.zero_shift.units
+        text: EaLogic.Utils.toFixed(ExGlobals.Constants.proxy.parameters.patternParametersAsObj.zero_shift.value)
+        onEditingFinished: editParameterValue(ExGlobals.Constants.proxy.parameters.patternParametersAsObj.zero_shift["@id"], text)
     }
 
     // Wavelength
@@ -32,9 +32,9 @@ Row {
     }
     EaElements.Parameter {
         width: textFieldWidth()
-        units: "Å" //ExGlobals.Constants.proxy.instrumentParametersAsObj.wavelength.units
-        text: EaLogic.Utils.toFixed(ExGlobals.Constants.proxy.instrumentParametersAsObj.wavelength.value)
-        onEditingFinished: editParameterValue(ExGlobals.Constants.proxy.instrumentParametersAsObj.wavelength["@id"], text)
+        units: "Å" //ExGlobals.Constants.proxy.parameters.instrumentParametersAsObj.wavelength.units
+        text: EaLogic.Utils.toFixed(ExGlobals.Constants.proxy.parameters.instrumentParametersAsObj.wavelength.value)
+        onEditingFinished: editParameterValue(ExGlobals.Constants.proxy.parameters.instrumentParametersAsObj.wavelength["@id"], text)
     }
 
     // Logic
@@ -48,6 +48,6 @@ Row {
     }
 
     function editParameterValue(id, value) {
-        ExGlobals.Constants.proxy.editParameter(id, parseFloat(value))
+        ExGlobals.Constants.proxy.parameters.editParameter(id, parseFloat(value))
     }
 }

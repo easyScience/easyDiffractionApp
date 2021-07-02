@@ -12,7 +12,7 @@ EaComponents.SideBarColumn {
     /*
     EaElements.GroupBox {
         title: qsTr("Bonds")
-        enabled: ExGlobals.Constants.proxy.samplesPresent
+        enabled: ExGlobals.Constants.proxy.phase.samplesPresent
 
         Row {
             spacing: EaStyle.Sizes.fontPixelSize
@@ -20,8 +20,8 @@ EaComponents.SideBarColumn {
             // Show bonds
             EaElements.CheckBox {
                 text: qsTr("Show bonds")
-                onCheckedChanged: ExGlobals.Constants.proxy.showBonds = checked
-                Component.onCompleted: checked = ExGlobals.Constants.proxy.showBonds
+                onCheckedChanged: ExGlobals.Constants.proxy.plotting3d.showBonds = checked
+                Component.onCompleted: checked = ExGlobals.Constants.proxy.plotting3d.showBonds
             }
 
             // Spacer
@@ -54,8 +54,8 @@ EaComponents.SideBarColumn {
             EaElements.Parameter {
                 anchors.verticalCenter: parent.verticalCenter
                 width: 75
-                onEditingFinished: ExGlobals.Constants.proxy.bondsMaxDistance = text
-                Component.onCompleted: text = ExGlobals.Constants.proxy.bondsMaxDistance
+                onEditingFinished: ExGlobals.Constants.proxy.plotting3d.bondsMaxDistance = text
+                Component.onCompleted: text = ExGlobals.Constants.proxy.plotting3d.bondsMaxDistance
             }
 
         }

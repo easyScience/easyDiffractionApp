@@ -12,17 +12,17 @@ import Gui.Globals 1.0 as ExGlobals
 
 EaComponents.TableView { 
     property bool enableDelButton:
-        typeof ExGlobals.Constants.proxy.phasesAsObj[ExGlobals.Constants.proxy.currentPhaseIndex] !== 'undefined'
-        && ExGlobals.Constants.proxy.phasesAsObj[ExGlobals.Constants.proxy.currentPhaseIndex].atoms.data.length > 1
+        typeof ExGlobals.Constants.proxy.phase.phasesAsObj[ExGlobals.Constants.proxy.phase.currentPhaseIndex] !== 'undefined'
+        && ExGlobals.Constants.proxy.phase.phasesAsObj[ExGlobals.Constants.proxy.phase.currentPhaseIndex].atoms.data.length > 1
         ? true
         : false
 
     // Table model
 
     model: XmlListModel {
-        property int phaseIndex: ExGlobals.Constants.proxy.currentPhaseIndex + 1
+        property int phaseIndex: ExGlobals.Constants.proxy.phase.currentPhaseIndex + 1
 
-        xml: ExGlobals.Constants.proxy.phasesAsXml
+        xml: ExGlobals.Constants.proxy.phase.phasesAsXml
         query: `/root/item[${phaseIndex}]/atoms/data/item`
 
         XmlRole { name: "label"; query: "label/value/string()" }
@@ -116,7 +116,7 @@ EaComponents.TableView {
             headerText: "Del." //"\uf2ed"
             fontIcon: "minus-circle"
             ToolTip.text: qsTr("Remove this atom")
-            onClicked: ExGlobals.Constants.proxy.removeAtom(model.label)
+            onClicked: ExGlobals.Constants.proxy.phase.removeAtom(model.label)
         }
 
     }
@@ -126,11 +126,11 @@ EaComponents.TableView {
     // Logic
 
     function editParameterValue(id, value) {
-        ExGlobals.Constants.proxy.editParameter(id, parseFloat(value))
+        ExGlobals.Constants.proxy.parameters.editParameter(id, parseFloat(value))
     }
 
     function editDescriptorValue(id, value) {
-        ExGlobals.Constants.proxy.editParameter(id, value)
+        ExGlobals.Constants.proxy.parameters.editParameter(id, value)
     }
 
     function jmolAtomColor(symbol) {

@@ -67,11 +67,9 @@ EaComponents.SideBarColumn {
             }
             EaElements.ComboBox {
                 width: minimizerSelector.width
-
-                model: ExGlobals.Constants.proxy.calculatorNames
-                currentIndex: ExGlobals.Constants.proxy.currentCalculatorIndex
-                onCurrentIndexChanged: ExGlobals.Constants.proxy.currentCalculatorIndex = currentIndex
-
+                model: ExGlobals.Constants.proxy.fitting.calculatorNames
+                currentIndex: ExGlobals.Constants.proxy.fitting.currentCalculatorIndex
+                onCurrentIndexChanged: ExGlobals.Constants.proxy.fitting.currentCalculatorIndex = currentIndex
                 Component.onCompleted: ExGlobals.Variables.calculatorSelector = this
             }
         }
@@ -81,7 +79,7 @@ EaComponents.SideBarColumn {
 
     EaElements.GroupBox {
         title: qsTr("Minimization")
-        enabled: ExGlobals.Constants.proxy.experimentLoaded
+        enabled: ExGlobals.Constants.proxy.experiment.experimentLoaded
 
         Row {
             id: minimizerRow
@@ -101,11 +99,11 @@ EaComponents.SideBarColumn {
 
                 width: (EaStyle.Sizes.sideBarContentWidth - minimizerLabel.width * 2 - minimizerRow.spacing * 3) / 2
 
-                model: ExGlobals.Constants.proxy.minimizerNames
-                currentIndex: ExGlobals.Constants.proxy.currentMinimizerIndex
+                model: ExGlobals.Constants.proxy.fitting.minimizerNames
+                currentIndex: ExGlobals.Constants.proxy.fitting.currentMinimizerIndex
 
                 onCurrentIndexChanged: {
-                    ExGlobals.Constants.proxy.currentMinimizerIndex = currentIndex
+                    ExGlobals.Constants.proxy.fitting.currentMinimizerIndex = currentIndex
                 }
             }
 
@@ -119,10 +117,10 @@ EaComponents.SideBarColumn {
                 id: methodSelector
 
                 width: minimizerSelector.width
-                model: ExGlobals.Constants.proxy.minimizerMethodNames
-                currentIndex: ExGlobals.Constants.proxy.currentMinimizerMethodIndex
+                model: ExGlobals.Constants.proxy.fitting.minimizerMethodNames
+                currentIndex: ExGlobals.Constants.proxy.fitting.currentMinimizerMethodIndex
                 onCurrentIndexChanged: {
-                    ExGlobals.Constants.proxy.currentMinimizerMethodIndex = currentIndex
+                    ExGlobals.Constants.proxy.fitting.currentMinimizerMethodIndex = currentIndex
                 }
             }
         }
@@ -130,7 +128,7 @@ EaComponents.SideBarColumn {
 
     EaElements.GroupBox {
         title: qsTr("Fitting constraints")
-        enabled: ExGlobals.Constants.proxy.experimentLoaded
+        enabled: ExGlobals.Constants.proxy.experiment.experimentLoaded
         last: true
 
         ExComponents.AnalysisConstraints {}
@@ -162,7 +160,7 @@ EaComponents.SideBarColumn {
                         elide: Text.ElideMiddle
                         textRole: ExGlobals.Variables.iconifiedNames ? "iconified_label" : "label"
                         model: XmlListModel {
-                            xml: ExGlobals.Constants.proxy.parametersAsXml
+                            xml: ExGlobals.Constants.proxy.parameters.parametersAsXml
                             query: "/root/item"
                             XmlRole { name: "label"; query: "label_with_index/string()" }
                             XmlRole { name: "iconified_label"; query: "iconified_label_with_index/string()" }
@@ -200,7 +198,7 @@ EaComponents.SideBarColumn {
                         fontIcon: "plus-circle"
                         ToolTip.text: qsTr("Add numeric constraint for single parameter")
                         onClicked: {
-                            ExGlobals.Constants.proxy.fitLogic.addConstraint(
+                            ExGlobals.Constants.proxy.fitting.addConstraint(
                                        dependentPar2.currentIndex,
                                        relationalOperator2.currentText.replace("\uf531", ">").replace("\uf536", "<"),
                                        value2.text,
@@ -237,7 +235,7 @@ EaComponents.SideBarColumn {
                         elide: Text.ElideMiddle
                         textRole: ExGlobals.Variables.iconifiedNames ? "iconified_label" : "label"
                         model: XmlListModel {
-                            xml: ExGlobals.Constants.proxy.parametersAsXml
+                            xml: ExGlobals.Constants.proxy.parameters.parametersAsXml
                             query: "/root/item"
                             XmlRole { name: "label"; query: "label_with_index/string()" }
                             XmlRole { name: "iconified_label"; query: "iconified_label_with_index/string()" }
@@ -275,7 +273,7 @@ EaComponents.SideBarColumn {
                         elide: Text.ElideMiddle
                         textRole: ExGlobals.Variables.iconifiedNames ? "iconified_label" : "label"
                         model: XmlListModel {
-                            xml: ExGlobals.Constants.proxy.parametersAsXml
+                            xml: ExGlobals.Constants.proxy.parameters.parametersAsXml
                             query: "/root/item"
                             XmlRole { name: "label"; query: "label_with_index/string()" }
                             XmlRole { name: "iconified_label"; query: "iconified_label_with_index/string()" }
@@ -314,7 +312,7 @@ EaComponents.SideBarColumn {
                         fontIcon: "plus-circle"
                         ToolTip.text: qsTr("Add constraint between two parameters")
                         onClicked: {
-                            ExGlobals.Constants.proxy.fitLogic.addConstraint(
+                            ExGlobals.Constants.proxy.fitting.addConstraint(
                                        dependentPar.currentIndex,
                                        relationalOperator.currentText.replace("\uf52c", "=").replace("\uf531", ">").replace("\uf536", "<"),
                                        value.text,

@@ -1,39 +1,51 @@
-from PySide2.QtCore import Signal, Slot, Property, QObject, QThread
+from PySide2.QtCore import Signal, QObject, QThread
 
 from threading import Thread
 
 from easyCore.Fitting.Fitting import Fitter as CoreFitter
 from easyCore.Fitting.Constraints import ObjConstraint, NumericConstraint
-from easyCore import borg
 
 from dicttoxml import dicttoxml
 from distutils.util import strtobool
 
 
-class FitterLogic(QObject):
+def _defaultFitResults():
+    return {
+        "success": None,
+        "nvarys":  None,
+        "GOF":     None,
+        "redchi2": None
+    }
+
+
+class FittingLogic(QObject):
     """
     Logic related to the fitter setup
     """
     fitFinished = Signal()
     fitStarted = Signal()
     currentMinimizerChanged = Signal()
+    currentMinimizerMethodChanged = Signal()
+    currentCalculatorChanged = Signal()
     finished = Signal(dict)
-    constraintsChanged = Signal()
     failed = Signal(str)
 
-    def __init__(self, parent=None, sample=None, fit_func=""):
+    def __init__(self, parent=None, interface=None):
         super().__init__(parent)
-        self.fitter = CoreFitter(sample, fit_func)
 
         self.parent = parent
+        self.interface = interface
+        self.fitter = CoreFitter(self.parent.l_phase._sample, self.interface.fit_func)
 
         # Multithreading
         # self._fitter_thread = None
         self._fit_finished = True
-        self._fit_results = self._defaultFitResults()
-
+        self._fit_results = _defaultFitResults()
+        self.data = None
+        self.is_fitting_now = False
         self._current_minimizer_method_index = 0
         self._current_minimizer_method_name = self.fitter.available_methods()[0]  # noqa: E501
+        self.currentMinimizerChanged.connect(self.onCurrentMinimizerChanged)
 
         self.fit_thread = Thread(target=self.fit_threading)
         self.finished.connect(self.onSuccess)
@@ -41,7 +53,7 @@ class FitterLogic(QObject):
 
     def fit_threading(self):
         data = self.data
-        method = self.minimizer_name
+        method = self._current_minimizer_method_name
 
         self._fit_finished = False
         self.fitStarted.emit()
@@ -91,61 +103,12 @@ class FitterLogic(QObject):
         # must reinstantiate the thread object
         self.fit_thread = Thread(target=self.fit_threading)
 
-    def fit(self, data):
-        self.data = data
-        self.minimizer_name = self._current_minimizer_method_name
+    # def fit(self, data):
+    def fit(self):
+        self.data = self.parent.l_parameters._data
         if not self.fit_thread.is_alive():
             self.is_fitting_now = True
             self.fit_thread.start()
-
-    ########### QTHREADS #################
-    # def fit_qthreads(self, data, minimizer_name):
-    #     # if running, stop the thread
-    #     if not self._fit_finished:
-    #         self.onStopFit()
-    #         borg.stack.endMacro()  # need this to close the undo stack properly
-    #         return
-
-    #     self._fit_finished = False
-    #     self.fitStarted.emit()
-    #     exp_data = data.experiments[0]
-
-    #     x = exp_data.x
-    #     y = exp_data.y
-    #     weights = 1 / exp_data.e
-    #     method = minimizer_name
-
-    #     args = (x, y)
-    #     kwargs = {"weights": weights, "method": method}
-    #     self._fitter_thread = Fitter(self.parent, self.fitter, 'fit', *args, **kwargs)  # noqa: E501
-    #     self._fitter_thread.finished.connect(self._setFitResults)
-    #     self._fitter_thread.setTerminationEnabled(True)
-    #     self._fitter_thread.failed.connect(self._setFitResultsFailed)
-    #     self._fitter_thread.start()
-    # def _setFitResultsFailed(self, res):
-    #     self.finishFitting()
-
-    # def finishFitting(self):
-    #     self._fit_finished = True
-    #     self.fitFinished.emit()
-
-    # def onStopFit(self):
-    #     """
-    #     Slot for thread cancelling and reloading parameters
-    #     """
-    #     self._fitter_thread.terminate()
-    #     self._fitter_thread.wait()
-    #     self._fitter_thread = None
-
-    #     self._fit_results['success'] = 'cancelled'
-    #     self._fit_results['nvarys'] = None
-    #     self._fit_results['GOF'] = None
-    #     self._fit_results['redchi2'] = None
-    #     self._setFitResultsFailed("Fitting stopped")
-    # def setFitFinished(self, fit_finished: bool):
-    #     if self._fit_finished == fit_finished:
-    #         return
-    #     self._fit_finished = fit_finished
 
     def currentMinimizerIndex(self):
         current_name = self.fitter.current_engine.name
@@ -170,7 +133,7 @@ class FitterLogic(QObject):
             # Bypass the property as it would be added to the stack.
             self._current_minimizer_method_index = idx
             self._current_minimizer_method_name = self.minimizerMethodNames()[idx]  # noqa: E501
-            self.currentMinimizerChanged.emit()
+            self.currentMinimizerMethodChanged.emit()
         return
 
     def minimizerMethodNames(self):
@@ -188,10 +151,34 @@ class FitterLogic(QObject):
 
         self._current_minimizer_method_index = new_index
         self._current_minimizer_method_name = self.minimizerMethodNames()[new_index]  # noqa: E501
+        self.currentMinimizerMethodChanged.emit()
+
+    ####################################################################################################################
+    # Calculator
+    ####################################################################################################################
+
+    def calculatorNames(self):
+        return self.interface.available_interfaces
+
+    def currentCalculatorIndex(self):
+        return self.interface.available_interfaces.index(self.interface.current_interface_name)
+
+    def setCurrentCalculatorIndex(self, new_index: int):
+        if self.currentCalculatorIndex == new_index:
+            return
+        new_name = self.interface.available_interfaces[new_index]
+        self.interface.switch(new_name)
+        self.currentCalculatorChanged.emit()
+        print("***** _onCurrentCalculatorChanged")
+        self._onCurrentCalculatorChanged()
+        self.parent.l_parameters._updateCalculatedData()
+
+    def _onCurrentCalculatorChanged(self):
+        data = self.parent.l_parameters._data.simulations
+        data = data[0]
+        data.name = f'{self.interface.current_interface_name} engine'
 
     # Constraints
-
-    @Slot(int, str, str, str, int)
     def addConstraint(self, dependent_par_idx, relational_operator,
                       value, arithmetic_operator, independent_par_idx):
         if dependent_par_idx == -1 or value == "":
@@ -216,7 +203,6 @@ class FitterLogic(QObject):
         # print(c)
         c()
         self.fitter.add_fit_constraint(c)
-        self.constraintsChanged.emit()
 
     def constraintsList(self):
         constraint_list = []
@@ -248,22 +234,18 @@ class FitterLogic(QObject):
             )
         return constraint_list
 
-    @Property(str, notify=constraintsChanged)
     def constraintsAsXml(self):
         xml = dicttoxml(self.constraintsList(), attr_type=False)
         xml = xml.decode()
         return xml
 
-    @Slot(int)
     def removeConstraintByIndex(self, index: int):
         self.fitter.remove_fit_constraint(index)
-        self.constraintsChanged.emit()
 
-    @Slot(int, str)
     def toggleConstraintByIndex(self, index, enabled):
         constraint = self.fitter.fit_constraints()[index]
         constraint.enabled = bool(strtobool(enabled))
-        self.constraintsChanged.emit()
+
 
 class Fitter(QThread):
     """
