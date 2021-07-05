@@ -1,4 +1,8 @@
 # noqa: E501
+# SPDX-FileCopyrightText: 2021 easyDiffraction contributors <support@easydiffraction.org>
+# SPDX-License-Identifier: BSD-3-Clause
+# © 2021 Contributors to the easyDiffraction project <https://github.com/easyScience/easyDiffractionApp>
+
 from dicttoxml import dicttoxml
 
 from PySide2.QtCore import Signal, QObject

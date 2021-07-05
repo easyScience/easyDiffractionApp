@@ -3,6 +3,10 @@ import QtQuick 2.13
 import easyApp.Gui.Globals 1.0 as EaGlobals
 import easyApp.Gui.Components 1.0 as EaComponents
 
+// SPDX-FileCopyrightText: 2021 easyDiffraction contributors <support@easydiffraction.org>
+// SPDX-License-Identifier: BSD-3-Clause
+// © 2021 Contributors to the easyDiffraction project <https://github.com/easyScience/easyDiffractionApp>
+
 import Gui.Globals 1.0 as ExGlobals
 
 EaComponents.ProjectDescriptionDialog {
